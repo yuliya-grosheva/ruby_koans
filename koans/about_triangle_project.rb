@@ -2,6 +2,28 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 # You need to write the triangle method in the file 'triangle.rb'
 require './triangle'
+# triangle.rb
+class TriangleError < StandardError
+end
+
+def triangle(a, b, c)
+  # Сортируем стороны для удобства проверки
+  sides = [a, b, c].sort
+  
+  # Проверка на невалидный треугольник
+  if sides.any? { |side| side <= 0 } || sides[0] + sides[1] <= sides[2]
+    raise TriangleError
+  end
+
+  # Определяем тип треугольника
+  if a == b && b == c
+    :equilateral  # Все стороны равны
+  elsif a == b || b == c || a == c
+    :isosceles    # Две стороны равны
+  else
+    :scalene      # Все стороны разные
+  end
+end
 
 class AboutTriangleProject < Neo::Koan
   def test_equilateral_triangles_have_equal_sides
