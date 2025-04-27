@@ -28,9 +28,37 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # More scoring examples are given in the tests below:
 #
 # Your goal is to write the score method.
-
+#вычисляет очки в игре "Greed"
 def score(dice)
-  # You need to write this method
+  return 0 if dice.empty?
+  
+  counts = Hash.new(0)
+  dice.each { |num| counts[num] += 1 }
+  
+  total = 0
+  
+  counts.each do |num, count|
+    if num == 1
+      triple_points = 1000
+      single_points = 100
+    elsif num == 5
+      triple_points = num * 100
+      single_points = 50
+    else
+      triple_points = num * 100
+      single_points = 0
+    end
+    
+    # Подсчет баллы за тройки
+    triple_count = count / 3
+    total += triple_count * triple_points
+    
+    #Подсчет баллы за оставшиеся одиночные игры
+    remaining = count % 3
+    total += remaining * single_points
+  end
+  
+  total
 end
 
 class AboutScoringProject < Neo::Koan
